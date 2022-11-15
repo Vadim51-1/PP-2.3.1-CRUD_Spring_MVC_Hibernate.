@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import web.servise.CarServiceImpl;
 
-
 @Controller
-
 public class CarController {
 
     private final CarServiceImpl carService;
