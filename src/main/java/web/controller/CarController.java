@@ -20,7 +20,7 @@ public class CarController {
     }
 
     @GetMapping(value = "/cars")
-    public String index(Model model, @RequestParam(defaultValue = "5") int age) {
+    public String printCarsParam(Model model, @RequestParam(defaultValue = "5") int age) {
         model.addAttribute("car", carService.printCarsParam(age));
         return "cars";
     }
