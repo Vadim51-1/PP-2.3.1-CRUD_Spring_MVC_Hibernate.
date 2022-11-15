@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class Car {
 
-    int id;
+    private int id;
 
-    String brand;
+    private String brand;
 
-    String model;
+    private String model;
 
     public Car(int id, String brand, String model) {
         this.id = id;
