@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 
 @Controller
-@RequestMapping("/people")
+@RequestMapping("people")
 public class PeopleController {
 
     private final PersonDAO personDAO;
@@ -22,7 +22,7 @@ public class PeopleController {
         this.personDAO = personDAO;
     }
 
-    @GetMapping()
+@GetMapping
     public String index(Model model) {
         model.addAttribute("people", personDAO.index());
         return "index";
@@ -36,14 +36,14 @@ public class PeopleController {
 
     @GetMapping("/new")
     public String newPerson(@ModelAttribute("person") Person person) {
-        return "people/new";
+        return "new";
     }
 
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "people/new";
+            return "new";
 
         personDAO.save(person);
         return "redirect:/people";
@@ -59,7 +59,7 @@ public class PeopleController {
     public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
                          @PathVariable("id") int id) {
         if (bindingResult.hasErrors())
-            return "people/edit";
+            return "edit";
 
         personDAO.update(id, person);
         return "redirect:/people";

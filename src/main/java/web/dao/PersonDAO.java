@@ -12,7 +12,9 @@ import java.util.List;
 
 @Component
 public class PersonDAO {
+
     private final SessionFactory sessionFactory;
+
 
     public PersonDAO(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -21,11 +23,10 @@ public class PersonDAO {
     @Transactional(readOnly = true)
     public List<Person> index() {
         Session session = sessionFactory.getCurrentSession();
-        List<Person> people = session.createQuery("from Person").getResultList();
 
-        return people;
+        return session.createQuery("select p from Person p", Person.class)
+                .getResultList();
     }
-
 
     @Transactional(readOnly = true)
     public Person show(int id) {
