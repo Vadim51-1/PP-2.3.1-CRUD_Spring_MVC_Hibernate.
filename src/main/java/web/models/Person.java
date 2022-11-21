@@ -1,4 +1,5 @@
 package web.models;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
@@ -22,7 +23,7 @@ public class Person {
     @Column(name = "age")
     private int age;
 
-    @Column(name ="email")
+    @Column(name = "email")
     @NotEmpty(message = "Email should not be empty")
     @Email
     private String email;

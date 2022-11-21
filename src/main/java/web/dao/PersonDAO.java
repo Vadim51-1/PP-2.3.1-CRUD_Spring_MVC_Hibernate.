@@ -10,9 +10,6 @@ import web.models.Person;
 
 import java.util.List;
 
-/**
- * @author Neil Alishev
- */
 @Component
 public class PersonDAO {
     private final SessionFactory sessionFactory;
