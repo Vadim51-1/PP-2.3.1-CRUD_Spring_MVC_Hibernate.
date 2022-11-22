@@ -2,20 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Новый пользователь</title>
+    <title>New person</title>
 </head>
 <body>
 <form th:method="post" th:action="@{/people}" th:object="${person}">
-    <label for="n">sdvsv:</label>
+    <label for="n">name:</label>
     <input id="n" type="text" th:field="*{name}">
     <br>
-    <label for="f">dssvsdv:</label>
+    <label for="f">age:</label>
     <input id="f" type="text" th:field="*{age}">
     <br>
     <label for="e">Email:</label>
     <input id="e" type="text" th:field="*{email}">
     <br>
-    <input type="submit" value="Добавить">
+    <input type="submit" value="Add">
 </form>
 </body>
 </html>
