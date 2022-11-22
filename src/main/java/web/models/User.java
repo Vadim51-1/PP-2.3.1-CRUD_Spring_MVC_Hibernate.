@@ -10,8 +10,8 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Person")
-public class Person {
+@Table(name = "User")
+public class User {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,13 +31,13 @@ public class Person {
     @Email
     private String email;
 
-    public Person() {
+    public User() {
 
     }
 
 
 
-    public Person(String name, int age, String email) {
+    public User(String name, int age, String email) {
         this.name = name;
         this.age = age;
         this.email = email;
@@ -79,8 +79,8 @@ public class Person {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
-        return id == person.id && age == person.age && Objects.equals(name, person.name) && Objects.equals(email, person.email);
+        User user = (User) o;
+        return id == user.id && age == user.age && Objects.equals(name, user.name) && Objects.equals(email, user.email);
     }
 
     @Override

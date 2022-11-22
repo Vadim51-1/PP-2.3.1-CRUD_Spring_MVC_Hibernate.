@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import web.dao.PersonDAO;
-import web.models.Person;
+import web.models.User;
 
 import javax.validation.Valid;
 
@@ -35,18 +35,18 @@ public class PeopleController {
     }
 
     @GetMapping("/new")
-     public String newPerson(@ModelAttribute("person") Person person) {
+     public String newPerson(@ModelAttribute("person") User user) {
 
         return "new";
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("person") @Valid Person person,
+    public String create(@ModelAttribute("person") @Valid User user,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "new";
 
-        personDAO.save(person);
+        personDAO.save(user);
         return "redirect:/people";
     }
 
@@ -57,12 +57,12 @@ public class PeopleController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
+    public String update(@ModelAttribute("person") @Valid User user, BindingResult bindingResult,
                          @PathVariable("id") int id) {
         if (bindingResult.hasErrors())
             return "edit";
 
-        personDAO.update(id, person);
+        personDAO.update(id, user);
         return "redirect:/people";
     }
 

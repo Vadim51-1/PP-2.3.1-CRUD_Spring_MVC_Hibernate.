@@ -6,7 +6,7 @@ import org.hibernate.SessionFactory;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import web.models.Person;
+import web.models.User;
 
 import java.util.List;
 
@@ -21,38 +21,38 @@ public class PersonDAO {
     }
 
     @Transactional(readOnly = true)
-    public List<Person> index() {
+    public List<User> index() {
         Session session = sessionFactory.getCurrentSession();
 
-        return session.createQuery("select p from Person p", Person.class)
+        return session.createQuery("select p from User p", User.class)
                 .getResultList();
     }
 
     @Transactional(readOnly = true)
-    public Person show(int id) {
+    public User show(int id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.get(Person.class, id);
+        return session.get(User.class, id);
     }
 
     @Transactional
-    public void save(Person person) {
+    public void save(User person) {
         Session session = sessionFactory.getCurrentSession();
         session.save(person);
     }
 
     @Transactional
-    public void update(int id, Person updatedPerson) {
+    public void update(int id, User updatedUser) {
         Session session = sessionFactory.getCurrentSession();
-        Person personToBeUpdated = session.get(Person.class, id);
+        User userToBeUpdated = session.get(User.class, id);
 
-        personToBeUpdated.setName(updatedPerson.getName());
-        personToBeUpdated.setAge(updatedPerson.getAge());
-        personToBeUpdated.setEmail(updatedPerson.getEmail());
+        userToBeUpdated.setName(updatedUser.getName());
+        userToBeUpdated.setAge(updatedUser.getAge());
+        userToBeUpdated.setEmail(updatedUser.getEmail());
     }
 
     @Transactional
     public void delete(int id) {
         Session session = sessionFactory.getCurrentSession();
-        session.remove(session.get(Person.class, id));
+        session.remove(session.get(User.class, id));
     }
 }
