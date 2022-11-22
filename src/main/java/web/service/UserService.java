@@ -9,16 +9,11 @@ public interface UserService {
 
     public List<User> getAllUsers();
 
-
     public User showUser(int id);
-
 
     public void saveUser(User person);
 
-
     public void updateUser(int id, User updatedUser);
-
-
 
     public void deleteUser(int id);
 }

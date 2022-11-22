@@ -11,7 +11,6 @@ import web.service.UserService;
 
 import javax.validation.Valid;
 
-
 @Controller
 @RequestMapping("people")
 public class UserController {
@@ -36,14 +35,14 @@ public class UserController {
     }
 
     @GetMapping("/new")
-     public String newUser(@ModelAttribute("person") User user) {
+    public String newUser(@ModelAttribute("person") User user) {
 
         return "newUser";
     }
 
     @PostMapping()
     public String createUser(@ModelAttribute("person") @Valid User user,
-                         BindingResult bindingResult) {
+                             BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "newUser";
 
@@ -59,7 +58,7 @@ public class UserController {
 
     @PatchMapping("/{id}")
     public String updateUser(@ModelAttribute("person") @Valid User user, BindingResult bindingResult,
-                         @PathVariable("id") int id) {
+                             @PathVariable("id") int id) {
         if (bindingResult.hasErrors())
             return "editUser";
 

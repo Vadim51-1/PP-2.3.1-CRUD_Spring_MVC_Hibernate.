@@ -9,6 +9,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -27,20 +28,24 @@ import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
-@PropertySource("classpath:db.properties" )
+@PropertySource("classpath:db.properties")
 @ComponentScan("web")
 @EnableTransactionManagement
 public class WebConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
 
-    private  final Environment env;
+    private final Environment env;
 
     public WebConfig(ApplicationContext applicationContext, Environment env) {
         this.applicationContext = applicationContext;
         this.env = env;
     }
 
+    @Bean
+    public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
+        return entityManagerFactory.createEntityManager();
+    }
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
@@ -58,7 +63,6 @@ public class WebConfig implements WebMvcConfigurer {
         templateEngine.setEnableSpringELCompiler(true);
         return templateEngine;
     }
-
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -78,38 +82,24 @@ public class WebConfig implements WebMvcConfigurer {
         return dataSource;
     }
 
-    private Properties hibernateProperties() {
+    @Bean
+    public LocalContainerEntityManagerFactoryBean getLocalEntityManager() {
+        LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
+        entityManager.setDataSource(dataSource());
+        entityManager.setPackagesToScan("web");
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", env.getRequiredProperty("hibernate.dialect"));
-        properties.put("hibernate.format_sql", env.getRequiredProperty("hibernate.format_sql"));
-
-
-        return properties;
+        properties.put(org.hibernate.cfg.Environment.SHOW_SQL, env.getProperty("hibernate.show_sql"));
+        properties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, env.getProperty("hibernate.hbm2ddl.auto"));
+        entityManager.setJpaProperties(properties);
+        entityManager.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        return entityManager;
     }
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("web.models");
-        sessionFactory.setHibernateProperties(hibernateProperties());
-
-        Properties props = new Properties();
-        props.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-        props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-        sessionFactory.setHibernateProperties(props);
-
-        return sessionFactory;
-    }
-
-    @Bean
-    public PlatformTransactionManager hibernateTransactionManager() {
-        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(sessionFactory().getObject());
-
+    public JpaTransactionManager getTransactionalManager() {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(getLocalEntityManager().getObject());
+        transactionManager.setDataSource(dataSource());
         return transactionManager;
     }
-
-
-
 }

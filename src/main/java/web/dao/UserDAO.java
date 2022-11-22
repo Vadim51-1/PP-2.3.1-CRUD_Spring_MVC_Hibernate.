@@ -9,18 +9,13 @@ public interface UserDAO {
 
       List<User> getAllUsers();
 
+      User showUser(int id);
 
-     User showUser(int id);
+      void saveUser(User person);
 
+      void updateUser(int id, User updatedUser);
 
-    void saveUser(User person);
-
-
-    void updateUser(int id, User updatedUser);
-
-
-    @Transactional
-    public void deleteUser(int id);
+      public void deleteUser(int id);
 
 
 }

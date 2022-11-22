@@ -1,7 +1,5 @@
 package web.models;
 
-
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
@@ -12,6 +10,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "User")
 public class User {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +34,11 @@ public class User {
 
     }
 
-
+    public User(User user) {
+        name = user.getName();
+        age = user.getAge();
+        email = user.getEmail();
+    }
 
     public User(String name, int age, String email) {
         this.name = name;
