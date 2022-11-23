@@ -2,7 +2,6 @@ package web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,26 +22,26 @@ public class UserController {
 
 
     @GetMapping
-    public String getAllUsers(Model model) {
+    public String getFormPrintAllUsers(Model model) {
         model.addAttribute("people", service.getAllUsers());
         return "allUsers";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
+    public String showUserData(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", service.showUser(id));
         return "showUser";
     }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("person") User user) {
+    public String getFormToCreateUser(@ModelAttribute("person") User user) {
 
         return "newUser";
     }
 
     @PostMapping()
-    public String createUser(@ModelAttribute("person") @Valid User user,
-                             BindingResult bindingResult) {
+    public String saveUserDatabase(@ModelAttribute("person") @Valid User user,
+                                   BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "newUser";
 
@@ -51,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
+    public String getFormEditUser(Model model, @PathVariable("id") int id) {
         model.addAttribute("person", service.showUser(id));
         return "editUser";
     }
